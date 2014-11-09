@@ -21,19 +21,19 @@
  */
 package org.numenta.nupic.integration;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Set;
-
 import org.junit.Test;
 import org.numenta.nupic.Parameters;
 import org.numenta.nupic.Parameters.KEY;
 import org.numenta.nupic.integration.TemporalMemoryTestMachine.DetailedResults;
 import org.numenta.nupic.util.PatternMachine;
 import org.numenta.nupic.util.SequenceMachine;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -117,17 +117,16 @@ public class ExtensiveTemporalMemoryTest extends AbstractTemporalMemoryTest {
      * Basic static input for all tests in this class
      */
     private void defaultSetup() {
-        parameters = new Parameters();
-        EnumMap<Parameters.KEY, Object> p = parameters.getMap();
-        p.put(KEY.COLUMN_DIMENSIONS, new int[] { 100 });
-        p.put(KEY.CELLS_PER_COLUMN, 1);
-        p.put(KEY.INITIAL_PERMANENCE, 0.8);
-        p.put(KEY.CONNECTED_PERMANENCE, 0.7);
-        p.put(KEY.MIN_THRESHOLD, 11);
-        p.put(KEY.MAX_NEW_SYNAPSE_COUNT, 11);
-        p.put(KEY.PERMANENCE_INCREMENT, 0.4);
-        p.put(KEY.PERMANENCE_DECREMENT, 0);
-        p.put(KEY.ACTIVATION_THRESHOLD, 8);
+        parameters = Parameters.getAllDefaultParameters();
+        parameters.setParameterByKey(KEY.COLUMN_DIMENSIONS, new int[] { 100 });
+        parameters.setParameterByKey(KEY.CELLS_PER_COLUMN, 1);
+        parameters.setParameterByKey(KEY.INITIAL_PERMANENCE, 0.8);
+        parameters.setParameterByKey(KEY.CONNECTED_PERMANENCE, 0.7);
+        parameters.setParameterByKey(KEY.MIN_THRESHOLD, 11);
+        parameters.setParameterByKey(KEY.MAX_NEW_SYNAPSE_COUNT, 11);
+        parameters.setParameterByKey(KEY.PERMANENCE_INCREMENT, 0.4);
+        parameters.setParameterByKey(KEY.PERMANENCE_DECREMENT, 0.0);
+        parameters.setParameterByKey(KEY.ACTIVATION_THRESHOLD, 8);
     }
     
     /**
@@ -141,7 +140,7 @@ public class ExtensiveTemporalMemoryTest extends AbstractTemporalMemoryTest {
         
         int seed = 42;
         finishSetUp(new PatternMachine(
-            ((int[])parameters.getMap().get(Parameters.KEY.COLUMN_DIMENSIONS))[0], 23, seed));
+            ((int[])parameters.getParameterByKey(Parameters.KEY.COLUMN_DIMENSIONS))[0], 23, seed));
         
         // Instead of implementing the Python "shuffle" method, just use the exact output
         Integer[] shuffledNums = new Integer[] { 

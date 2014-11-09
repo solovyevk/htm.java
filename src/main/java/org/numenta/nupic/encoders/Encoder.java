@@ -57,6 +57,23 @@ import org.numenta.nupic.util.Tuple;
  * - getDescription()               --  returns a list of (name, offset) pairs describing the
  *                                      encoded output
  * </pre>
+ * 
+ * <P>
+ * Typical usage is as follows:
+ * <PRE>
+ * CategoryEncoder.Builder builder =  ((CategoryEncoder.Builder)CategoryEncoder.builder())
+ *      .w(3)
+ *      .radius(0.0)
+ *      .minVal(0.0)
+ *      .maxVal(8.0)
+ *      .periodic(false)
+ *      .forced(true);
+ *      
+ * CategoryEncoder encoder = builder.build();
+ * 
+ * <b>Above values are <i>not</i> an example of "sane" values.</b>
+ * 
+ * </PRE>
  * @author Numenta
  * @author David Ray
  */
@@ -86,9 +103,9 @@ public abstract class Encoder {
      */
     protected boolean periodic = true;
     /** The minimum value of the input signal.  */
-    protected double minval = 0;
+    protected double minVal = 0;
     /** The maximum value of the input signal. */
-    protected double maxval = 0;
+    protected double maxVal = 0;
     /** if true, non-periodic inputs smaller than minval or greater
             than maxval will be clipped to minval/maxval */
     protected boolean clipInput;
@@ -114,6 +131,8 @@ public abstract class Encoder {
     protected LinkedHashMap<EncoderTuple, List<EncoderTuple>> encoders;
     protected List<String> scalarNames;
     
+    
+    protected Encoder() {}
     
     ///////////////////////////////////////////////////////////
     /** 
@@ -270,7 +289,7 @@ public abstract class Encoder {
      * @param minVal
      */
     public void setMinVal(double minVal) {
-    	this.minval = minVal;
+    	this.minVal = minVal;
     }
     
     /**
@@ -278,7 +297,7 @@ public abstract class Encoder {
      * @return
      */
     public double getMinVal() {
-    	return minval;
+    	return minVal;
     }
     
     /**
@@ -286,7 +305,7 @@ public abstract class Encoder {
      * @param maxVal
      */
     public void setMaxVal(double maxVal) {
-    	this.maxval = maxVal;
+    	this.maxVal = maxVal;
     }
     
     /**
@@ -294,7 +313,7 @@ public abstract class Encoder {
      * @return
      */
     public double getMaxVal() {
-    	return maxval;
+    	return maxVal;
     }
     
     /**
@@ -1228,4 +1247,89 @@ public abstract class Encoder {
 		return getWidth() + getDescription().size() - 1;
 	}
 	
+	/**
+	 * Base class for {@link Encoder} builders
+	 * @param <T>
+	 */
+	@SuppressWarnings("unchecked")
+	public static abstract class Builder<K, T> {
+		protected int n;
+		protected int w;
+		protected int encVerbosity;
+		protected double minVal;
+		protected double maxVal;
+		protected double radius;
+		protected double resolution;
+		protected boolean periodic;
+		protected boolean clipInput;
+		protected boolean forced;
+		protected String name;
+		
+		protected Encoder encoder;
+		
+		public T build() {
+			if(encoder == null) {
+				throw new IllegalStateException("Subclass did not instantiate builder type " +
+					"before calling this method!");
+			}
+			encoder.setN(n);
+			encoder.setW(w);
+			encoder.setVerbosity(encVerbosity);
+			encoder.setMinVal(minVal);
+			encoder.setMaxVal(maxVal);
+			encoder.setRadius(radius);
+			encoder.setResolution(resolution);
+			encoder.setPeriodic(periodic);
+			encoder.setClipInput(clipInput);
+			encoder.setForced(forced);
+			encoder.setName(name);
+			
+			return (T)encoder;
+		}
+		
+		public K n(int n) {
+			this.n = n;
+			return (K)this;
+		}
+		public K w(int w) {
+			this.w = w;
+			return (K)this;
+		}
+		public K verbosity(int verbosity) {
+			this.encVerbosity = verbosity;
+			return (K)this;
+		}
+		public K minVal(double minVal) {
+			this.minVal = minVal;
+			return (K)this;
+		}
+		public K maxVal(double maxVal) {
+			this.maxVal = maxVal;
+			return (K)this;
+		}
+		public K radius(double radius) {
+			this.radius = radius;
+			return (K)this;
+		}
+		public K resolution(double resolution) {
+			this.resolution = resolution;
+			return (K)this;
+		}
+		public K periodic(boolean periodic) {
+			this.periodic = periodic;
+			return (K)this;
+		}
+		public K clipInput(boolean clipInput) {
+			this.clipInput = clipInput;
+			return (K)this;
+		}
+		public K forced(boolean forced) {
+			this.forced = forced;
+			return (K)this;
+		}
+		public K name(String name) {
+			this.name = name;
+			return (K)this;
+		}
+	}
 }
