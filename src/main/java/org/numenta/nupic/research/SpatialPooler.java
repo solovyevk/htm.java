@@ -19,9 +19,9 @@
  * http://numenta.org/licenses/
  * ---------------------------------------------------------------------
  */
+
 package org.numenta.nupic.research;
 
-import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TDoubleArrayList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.set.hash.TIntHashSet;
@@ -795,11 +795,11 @@ public class SpatialPooler {
             dimensionCoords.add(ArrayUtils.unique(curRange));
         }
         
-        List<TIntList> neighborList = ArrayUtils.dimensionsToCoordinateList(dimensionCoords);
+        List<int[]> neighborList = ArrayUtils.dimensionsToCoordinateList(dimensionCoords);
         TIntArrayList neighbors = new TIntArrayList(neighborList.size());
         int size = neighborList.size();
         for(int i = 0;i < size;i++) {
-        	int flatIndex = c.getInputMatrix().computeIndex(neighborList.get(i).toArray(), false);
+        	int flatIndex = c.getInputMatrix().computeIndex(neighborList.get(i), false);
             if(flatIndex == columnIndex) continue;
             neighbors.add(flatIndex);
         }

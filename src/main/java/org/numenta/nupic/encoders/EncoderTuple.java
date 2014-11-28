@@ -1,3 +1,25 @@
+/* ---------------------------------------------------------------------
+ * Numenta Platform for Intelligent Computing (NuPIC)
+ * Copyright (C) 2014, Numenta, Inc.  Unless you have an agreement
+ * with Numenta, Inc., for a separate license for this software code, the
+ * following terms and conditions apply:
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.
+ *
+ * http://numenta.org/licenses/
+ * ---------------------------------------------------------------------
+ */
+
 package org.numenta.nupic.encoders;
 
 import org.numenta.nupic.util.Tuple;
@@ -20,7 +42,7 @@ public class EncoderTuple extends Tuple {
 	 * 					encoder encodes/decodes. (see  {@link ScalarEncoder#getFirstOnBit(
 	 * 						org.numenta.nupic.research.Connections, double)})
 	 */
-	public EncoderTuple(String name, Encoder e, int offset) {
+	public EncoderTuple(String name, Encoder<?> e, int offset) {
 		super(3, name, e, offset);
 		if(name == null) throw new IllegalArgumentException("Can't instantiate an EncoderTuple " +
 			" with a null Name");
@@ -40,8 +62,8 @@ public class EncoderTuple extends Tuple {
 	 * Returns this {@link Encoder}
 	 * @return
 	 */
-	public Encoder getEncoder() {
-		return (Encoder)get(1);
+	public Encoder<?> getEncoder() {
+		return (Encoder<?>)get(1);
 	}
 	
 	/**
