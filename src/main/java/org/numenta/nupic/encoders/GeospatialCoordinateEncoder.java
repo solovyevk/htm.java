@@ -1,3 +1,25 @@
+/* ---------------------------------------------------------------------
+ * Numenta Platform for Intelligent Computing (NuPIC)
+ * Copyright (C) 2014, Numenta, Inc.  Unless you have an agreement
+ * with Numenta, Inc., for a separate license for this software code, the
+ * following terms and conditions apply:
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.
+ *
+ * http://numenta.org/licenses/
+ * ---------------------------------------------------------------------
+ */
+
 package org.numenta.nupic.encoders;
 
 import java.util.ArrayList;
@@ -11,7 +33,12 @@ public class GeospatialCoordinateEncoder extends CoordinateEncoder {
 	
 	
 	public GeospatialCoordinateEncoder() {
-		
+        Tuple desc = new Tuple(2, "longitude", 0);
+        Tuple desc2 = new Tuple(2, "lattitude", 1);
+        Tuple desc3 = new Tuple(2, "speed", 2);
+        description.add(desc);
+        description.add(desc2);
+        description.add(desc3);
 	}
 	
 	/**
@@ -23,26 +50,7 @@ public class GeospatialCoordinateEncoder extends CoordinateEncoder {
 	public static GeospatialCoordinateEncoder.Builder geobuilder() {
 		return new GeospatialCoordinateEncoder.Builder();
 	}
-	
-	/**
-	 * Returns a {@link List} of {@link Tuple}s containing
-	 * [String:"name", int:offset]
-	 * 
-	 * @return List of Tuple(String, int)'s
-	 * @see Encoder for more information
-	 */
-	@Override
-	public List<Tuple> getDescription() {
-		List<Tuple> retVal = new ArrayList<Tuple>();
-		Tuple desc = new Tuple(2, "longitude", 0);
-		Tuple desc2 = new Tuple(2, "lattitude", 1);
-		Tuple desc3 = new Tuple(2, "speed", 2);
-		retVal.add(desc);
-		retVal.add(desc2);
-		retVal.add(desc3);
-		
-		return retVal;
-	}
+
 	
 	/**
 	 * {@inheritDoc}
